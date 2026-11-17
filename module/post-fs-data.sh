@@ -23,6 +23,19 @@ else
   log "no fingerprints found in One UI (add them in One UI settings first)"
 fi
 rm -f $tmp
+# 2b) One UI's face enrolment (metadata only; the face data stays in the secure chip)
+for n in settings_face.xml face_enrolled_position_0.xml; do
+  if busybox nsenter -t 1 -m cat /data/system/users/0/$n > $D/.face_tmp 2>/dev/null && [ -s $D/.face_tmp ]; then
+    if ! cmp -s $D/.face_tmp $D/$n; then
+      cp -f $D/.face_tmp $D/$n && chown 1000:1000 $D/$n && chmod 600 $D/$n && chcon u:object_r:system_data_file:s0 $D/$n
+      log "copied $n from One UI"
+    fi
+  else
+    # a face removed in One UI must not stay listed here
+    [ -f $D/$n ] && rm -f $D/$n && log "removed $n (no face in One UI)"
+  fi
+done
+rm -f $D/.face_tmp
 # 3) this phone's measured ring geometry (written by service.sh on the first boot)
 if [ -f $MODDIR/geometry.prop ]; then
   while IFS='=' read -r k v; do

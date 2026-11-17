@@ -2,7 +2,7 @@ SKIPUNZIP=0
 command -v abort >/dev/null 2>&1 || abort() { ui_print "$1"; exit 1; }
 command -v ui_print >/dev/null 2>&1 || ui_print() { echo "$1"; }
 ui_print " "
-ui_print "  S25 ColorOS Fingerprint"
+ui_print "  S25 ColorOS Fingerprint & Face"
 ui_print "  for the ColorOS 17 guest (OneOS) on Galaxy S25"
 ui_print " "
 if [ -z "$(getprop ro.build.version.oplusrom)" ]; then
@@ -23,6 +23,6 @@ ui_print " "
 ui_print "- Next: install FingerprintBridge.apk, enable it in"
 ui_print "  Vector/LSPosed with scope 'System Framework',"
 ui_print "  then tap 'Restart guest' in OneOS."
-ui_print "- Fingerprints come from One UI. Add them there."
-ui_print "- Do NOT delete a fingerprint in ColorOS: it is"
+ui_print "- Fingerprints and face come from One UI. Add them there."
+ui_print "- Do NOT delete a fingerprint or face in ColorOS: it is"
 ui_print "  deleted from One UI too."
