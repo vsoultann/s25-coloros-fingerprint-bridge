@@ -2,6 +2,8 @@
 
 Fingerprint unlock for the **ColorOS 17 guest system in OneOS** on the **Samsung Galaxy S25 series**.
 
+<p align="center"><img src="docs/images/unlock.gif" width="300" alt="AOD ring, pressed animation and unlock to the home screen"></p>
+
 Out of the box ColorOS on a Galaxy has no fingerprint at all. With this:
 
 - ✅ Unlock with your fingerprint on the lock screen **and straight from AOD**
@@ -84,6 +86,8 @@ In the OneOS app, tap **Restart guest**.
    ![Fingerprint settings](docs/images/fingerprint-settings.png)
 
 3. Lock the phone: the ring sits over the sensor. Put your finger on it — the animation plays and the phone unlocks. Also try from **AOD** without waking the screen first.
+
+   <img src="docs/images/unlock.gif" width="260" alt="Unlock from AOD">
 
 ---
 
