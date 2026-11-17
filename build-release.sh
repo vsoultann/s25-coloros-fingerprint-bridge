@@ -15,4 +15,5 @@ with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
 print("built:", out)
 P
 sh bridge/build.sh | tail -1
+rm -f release/FingerprintBridge.apk
 cp bridge/FingerprintBridge.apk release/
