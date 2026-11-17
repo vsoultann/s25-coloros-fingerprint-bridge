@@ -10,7 +10,7 @@ out = f"release/S25-ColorOS-Fingerprint-{sys.argv[1]}.zip"
 with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
     for root, _, files in os.walk("module"):
         for f in files:
-            if f in ("log.txt", "geometry.prop"): continue
+            if f in ("log.txt", "geometry.prop", ".classic_cleaned"): continue
             p = os.path.join(root, f); z.write(p, os.path.relpath(p, "module"))
 print("built:", out)
 P

@@ -29,3 +29,11 @@ if [ -f $MODDIR/geometry.prop ]; then
     case "$k" in persist.vendor.fingerprint.optical.icon*) [ -n "$v" ] && resetprop -n "$k" "$v" ;; esac
   done < $MODDIR/geometry.prop
 fi
+# 4) one-time cleanup of v1.0: it set persist.sys.oplus.classic_anim_level=1, which turns off the
+#    lock-screen clock's fingerprint-unlock animation. Persistent props live in One UI's store.
+if [ ! -f $MODDIR/.classic_cleaned ]; then
+  R=$(busybox nsenter -t 1 -m sh -c 'ls /data/adb/ksu/bin/resetprop /data/adb/ap/bin/resetprop /data/adb/magisk/resetprop 2>/dev/null | head -1')
+  [ -n "$R" ] && busybox nsenter -t 1 -m $R -p --delete persist.sys.oplus.classic_anim_level 2>/dev/null
+  resetprop --delete persist.sys.oplus.classic_anim_level 2>/dev/null
+  touch $MODDIR/.classic_cleaned && log "removed persist.sys.oplus.classic_anim_level left by v1.0"
+fi
