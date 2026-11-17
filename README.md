@@ -104,6 +104,7 @@ In the OneOS app, tap **Restart guest**.
 | No fingerprint in Settings | Add a fingerprint in One UI first, then *Restart guest*. |
 | Ring in the wrong place | *Restart guest* once more (the position is measured on the first boot). |
 | No animation / no unlock from AOD | Check *Fingerprint Bridge* is on in Vector/LSPosed with scope *System Framework*, then *Restart guest*. |
+| Clock doesn't stretch on fingerprint unlock | Use the default lock screen with a digital clock (some themes / clock styles don't have it). If you used v1.0, update to v1.1. |
 | Something else | Send `/data/adb/modules/s25_coloros_fingerprint/log.txt` in an issue. |
 
 ## Uninstall
