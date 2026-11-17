@@ -1,0 +1,9 @@
+*.jks
+*.keystore
+bridge/build/
+bridge/build-framework-res.apk
+bridge/FingerprintBridge.apk
+release/
+docs/raw/
+*.idsig
+__pycache__/

@@ -1,0 +1,13 @@
+# Let ColorOS run fingerprint on a Samsung
+persist.sys.block.fingerprint=false
+# Use Samsung's AIDL fingerprint HAL (ColorOS otherwise hard-codes OPPO's HIDL config "0:2:15")
+vendor.fingerprint.aidl.support=1
+# In-display ultrasonic sensor: ColorOS ring, pressed effect, settings
+persist.vendor.fingerprint.sensor_type=ultrasonic
+# Ring size / position in px. These are the Galaxy S25 (1080x2340) values; service.sh measures
+# the real ones for this phone on the first boot and post-fs-data.sh applies them from then on.
+# iconlocation = distance from the bottom of the screen to the ring's centre.
+persist.vendor.fingerprint.optical.iconsize=212
+persist.vendor.fingerprint.optical.iconlocation=509
+# Smoother (50 fps, 36 frame) pressed animation instead of the 30 fps low-tier one
+persist.sys.oplus.classic_anim_level=1
