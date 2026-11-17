@@ -31,7 +31,7 @@ Out of the box ColorOS on a Galaxy has no fingerprint at all. With this:
 
 Get both files from the [**latest release**](../../releases/latest):
 
-- `S25-ColorOS-Fingerprint-v1.0.zip` — the module
+- `S25-ColorOS-Fingerprint-v1.1.zip` — the module
 - `FingerprintBridge.apk` — the Xposed part
 
 ---
@@ -47,7 +47,7 @@ Open the **OneOS** app (the *"You're in ColorOS 17"* screen) and:
 1. Tap **Manage guest modules**
 2. Tap **Import module**
 3. Tap **Choose ZIP**
-4. Open **Download** and pick `S25-ColorOS-Fingerprint-v1.0.zip`
+4. Open **Download** and pick `S25-ColorOS-Fingerprint-v1.1.zip`
 5. It says *"Module staged for the next guest boot"* — done
 
 | 1 | 2 | 3 |
@@ -125,7 +125,7 @@ ColorOS is built for OPPO hardware, so on a Galaxy several things are missing. T
 | No ring / effect (`sensor_type` unknown) | `persist.vendor.fingerprint.sensor_type=ultrasonic` + ring size/position measured from `/sys/class/fingerprint/fingerprint/position` |
 | ColorOS waits for OPPO's "finger down" signal (`onFingerprintCmd 1201/1202`), Samsung sends its own (`vendorCode 10002 / 10014`) | **Fingerprint Bridge** (Xposed, `system_server`) translates one into the other |
 | Fingerprint stops on AOD | turns on ColorOS's hidden *show fingerprint when screen off* setting |
-| 30 fps pressed animation | `persist.sys.oplus.classic_anim_level=1` → the 50 fps version |
+| 30 fps pressed animation | `debug.systemui.gaussblur_level=1` → the 50 fps version (keeps the clock's unlock animation) |
 
 Everything is undone when the module is removed. Every hook catches its own errors, so a failure can only mean "no animation", never a crash back to One UI.
 

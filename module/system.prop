@@ -9,5 +9,7 @@ persist.vendor.fingerprint.sensor_type=ultrasonic
 # iconlocation = distance from the bottom of the screen to the ring's centre.
 persist.vendor.fingerprint.optical.iconsize=212
 persist.vendor.fingerprint.optical.iconlocation=509
-# Smoother (50 fps, 36 frame) pressed animation instead of the 30 fps low-tier one
-persist.sys.oplus.classic_anim_level=1
+# Smoother (50 fps, 36 frame) pressed animation instead of the 30 fps low-tier one.
+# (Not persist.sys.oplus.classic_anim_level: setting that switches ColorOS to "classic"
+# animations and turns off the lock-screen clock's fingerprint-unlock stretch animation.)
+debug.systemui.gaussblur_level=1
