@@ -2,7 +2,7 @@
 
 Fingerprint **and face** unlock for the **ColorOS 17 guest system in OneOS** on the **Samsung Galaxy S25 series**.
 
-<p align="center"><img src="docs/images/unlock.gif" width="300" alt="AOD ring, pressed animation and unlock to the home screen"></p>
+<p align="center"><img src="docs/images/face-and-fingerprint.gif" width="300" alt="Face unlock and fingerprint unlock on ColorOS 17 on a Galaxy S25"></p>
 
 Out of the box ColorOS on a Galaxy has no fingerprint or face unlock at all. With this:
 
