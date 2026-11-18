@@ -32,7 +32,7 @@ Out of the box ColorOS on a Galaxy has no fingerprint or face unlock at all. Wit
 
 Get both files from the [**latest release**](../../releases/latest):
 
-- `S25-ColorOS-Fingerprint-v1.2.zip` — the module
+- `S25-ColorOS-Fingerprint-v1.3.zip` — the module
 - `FingerprintBridge.apk` — the Xposed part
 
 ---
@@ -48,7 +48,7 @@ Open the **OneOS** app (the *"You're in ColorOS 17"* screen) and:
 1. Tap **Manage guest modules**
 2. Tap **Import module**
 3. Tap **Choose ZIP**
-4. Open **Download** and pick `S25-ColorOS-Fingerprint-v1.2.zip`
+4. Open **Download** and pick `S25-ColorOS-Fingerprint-v1.3.zip`
 5. It says *"Module staged for the next guest boot"* — done
 
 | 1 | 2 | 3 |
@@ -107,7 +107,40 @@ In the OneOS app, tap **Restart guest**.
 | Ring in the wrong place | *Restart guest* once more (the position is measured on the first boot). |
 | No animation / no unlock from AOD | Check *Fingerprint Bridge* is on in Vector/LSPosed with scope *System Framework*, then *Restart guest*. |
 | Clock doesn't stretch on fingerprint unlock | Use the default lock screen with a digital clock (some themes / clock styles don't have it). If you used v1.0, update to v1.1. |
+| Fingerprint takes over 1 second / phone feels slow | The CPU may be stuck at a low speed — see [Phone or fingerprint slow?](#phone-or-fingerprint-slow) |
 | Something else | Send `/data/adb/modules/s25_coloros_fingerprint/log.txt` in an issue. |
+
+## Options
+
+Type these in a root terminal (e.g. Termux). They work instantly, no restart needed.
+
+| What | Command |
+|---|---|
+| Turn the fingerprint **press animation off** | `su -c setprop persist.fpbridge.effect 0` |
+| Turn the press animation **back on** (default) | `su -c setprop persist.fpbridge.effect 1` |
+
+With the animation off, fingerprint unlock still works everywhere (lock screen and AOD).
+
+## Phone or fingerprint slow?
+
+OneOS lowers the CPU speed when the phone gets hot and raises it again when it cools down. Sometimes it loses track and **the CPU stays capped at ~1 GHz** (about a quarter of the S25's speed) even when the phone is cool. Everything feels slow then, and fingerprint unlock takes over a second, because the sensor needs CPU power to read your finger.
+
+Check it:
+
+```
+su -c 'cat /sys/devices/system/cpu/cpufreq/policy*/scaling_max_freq'
+```
+
+On a healthy S25 this shows `3532800` and `4473600`. Much lower numbers while the phone is cool = stuck cap.
+
+[`extras/cpu_cap_guard.sh`](extras/cpu_cap_guard.sh) (also in the [release](../../releases/latest)) fixes it. It **only ever acts when the phone is cool** (below 40 °C), so heat protection keeps working. Download it to your Download folder, then:
+
+| What | Command |
+|---|---|
+| Fix it **right now** (once) | `su -c 'sh /data/media/0/Download/cpu_cap_guard.sh once'` |
+| Fix it **automatically** from now on | `su -c 'cp /data/media/0/Download/cpu_cap_guard.sh /data/adb/service.d/ && chmod 755 /data/adb/service.d/cpu_cap_guard.sh'` then *Restart guest* |
+| See what it did | `su -c 'cat /data/adb/cpu_cap_guard.log'` |
+| Remove the automatic fix | `su -c 'rm /data/adb/service.d/cpu_cap_guard.sh'` then *Restart guest* |
 
 ## Uninstall
 
@@ -127,7 +160,7 @@ ColorOS is built for OPPO hardware, so on a Galaxy several things are missing. T
 | No face unlock at all (ColorOS doesn't declare face hardware, so its face service never starts) | `android.hardware.biometrics.face` declared; One UI's face registration copied in before ColorOS starts — ColorOS then uses Samsung's face driver directly |
 | Missing `/data/vendor_de/0/fpdata` folder | created at boot |
 | No ring / effect (`sensor_type` unknown) | `persist.vendor.fingerprint.sensor_type=ultrasonic` + ring size/position measured from `/sys/class/fingerprint/fingerprint/position` |
-| ColorOS waits for OPPO's "finger down" signal (`onFingerprintCmd 1201/1202`), Samsung sends its own (`vendorCode 10002 / 10014`) | **Fingerprint Bridge** (Xposed, `system_server`) translates one into the other |
+| ColorOS waits for OPPO's "finger down/up" signal (`onFingerprintCmd 1201/1202`), Samsung sends its own (`vendorCode 10002`, and `10014` or `10004` for up) | **Fingerprint Bridge** (Xposed, `system_server`) translates one into the other, and releases the finger as soon as a fingerprint matches so ColorOS unlocks without waiting |
 | Fingerprint stops on AOD | turns on ColorOS's hidden *show fingerprint when screen off* setting |
 | 30 fps pressed animation | `debug.systemui.gaussblur_level=1` → the 50 fps version (keeps the clock's unlock animation) |
 

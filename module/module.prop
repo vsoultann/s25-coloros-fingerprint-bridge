@@ -1,6 +1,6 @@
 id=s25_coloros_fingerprint
 name=S25 ColorOS Fingerprint & Face
-version=v1.2
-versionCode=3
+version=v1.3
+versionCode=4
 author=vsoultann
 description=Fingerprint + face unlock for the ColorOS 17 guest (OneOS) on Galaxy S25 phones: uses One UI's fingerprints and face, ColorOS ring + pressed effect, AOD unlock. Fingerprint effects need the Fingerprint Bridge app enabled in Vector/LSPosed.
